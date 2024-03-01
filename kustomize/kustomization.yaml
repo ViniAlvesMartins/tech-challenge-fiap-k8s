@@ -1,0 +1,6 @@
+resources:
+- namespace.yaml
+- postgress.yaml
+- ze-burguer.yaml
+
+namespace: tech-challenge

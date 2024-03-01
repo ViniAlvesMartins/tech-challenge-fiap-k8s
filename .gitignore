@@ -1,0 +1,3 @@
+terraform_accessKeys.csv
+.terraform
+.terraform.lock.hcl
