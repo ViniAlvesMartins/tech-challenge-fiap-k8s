@@ -64,7 +64,7 @@ kind: ConfigMap
 metadata:
   name: ze-burguer
 data:
-  DATABASE_HOST: "postgres.tech-challenge"
+  DATABASE_HOST: "rds-endpoint"
   DATABASE_PORT: "5432"
   DATABASE_NAME: "ze_burguer"
   DATABASE_SCHEMA: "ze_burguer"
