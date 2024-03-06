@@ -3,7 +3,7 @@ resource "aws_eks_cluster" "cluster" {
   role_arn = aws_iam_role.cluster_role.arn
 
   vpc_config {
-    subnet_ids = [aws_subnet.eks-subnet.id]
+    subnet_ids =  [ data.aws_subnet.eks_subnet_1.id, data.aws_subnet.eks_subnet_2.id ]
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
@@ -11,6 +11,8 @@ resource "aws_eks_cluster" "cluster" {
   depends_on = [
     aws_iam_role_policy_attachment.attach_AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.attach_AmazonEKSVPCResourceController,
+    data.aws_subnet.eks_subnet_1,
+    data.aws_subnet.eks_subnet_2
   ]
 }
 
@@ -26,7 +28,7 @@ resource "aws_eks_node_group" "ze-burguer-nodes"{
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "micro-node"
   node_role_arn   = aws_iam_role.node_role.arn
-  subnet_ids      = aws_subnet.eks-subnet[*].id
+  subnet_ids      = [ data.aws_subnet.eks_subnet_1.id, data.aws_subnet.eks_subnet_2.id ]
   instance_types = ["t3.micro"]
 
   scaling_config {
@@ -41,5 +43,7 @@ resource "aws_eks_node_group" "ze-burguer-nodes"{
     aws_iam_role_policy_attachment.attach-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.attach-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.attach-AmazonEC2ContainerRegistryReadOnly,
+    data.aws_subnet.eks_subnet_1,
+    data.aws_subnet.eks_subnet_2
   ]
 }
