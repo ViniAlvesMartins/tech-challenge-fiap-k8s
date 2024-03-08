@@ -3,13 +3,13 @@ name: Terraform
 on:
   push:
     paths: 
-      - terraform/
+      - 'terraform/**.tf'
     branches:
       - main
   pull_request:
     types: [ opened, synchronize, reopened ]
     paths: 
-     - terraform/
+     - 'terraform/**.tf'
   
 jobs:
   terraform:
