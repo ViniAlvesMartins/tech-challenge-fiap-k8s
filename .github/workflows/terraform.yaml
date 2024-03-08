@@ -9,7 +9,6 @@ on:
   pull_request:
     paths: 
      - terraform/
-  workflow_dispatch:
   
 jobs:
   terraform:
@@ -17,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./
+        working-directory: ./terraform
         shell: bash
     permissions:
       id-token: write
