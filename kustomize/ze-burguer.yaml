@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ze-burguer-app
+spec:
+  selector:
+    matchLabels:
+      app:  ze-burguer
+  template:
+    metadata:
+      labels:
+        app: ze-burguer
+    spec:
+      containers:
+        - name: ze-burguer
+          image: marcosilva/ze_burguer:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+          - configMapRef:
+              name: ze-burguer
+          - secretRef:
+              name: ze-burguer
+          resources:
+            requests:
+              cpu: "30m"
+            limits:
+              cpu: "30m"
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ze-burguer
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ze-burguer-app
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ze-burguer
+spec:
+  type: NodePort
+  selector:
+    app: ze-burguer
+  ports:
+    - protocol: TCP
+      port: 8080
+      nodePort: 30443
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ze-burguer
+data:
+  DATABASE_HOST: "rds-endpoint"
+  DATABASE_PORT: "5432"
+  DATABASE_NAME: "ze_burguer"
+  DATABASE_SCHEMA: "ze_burguer"
+  DATABASE_USERNAME: "postgres"
+  MIGRATIONS_DIR: "infra/database/migrations"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ze-burguer
+type: Opaque
+data:
+  DATABASE_PASSWORD: bXlzZWNyZXQxMjMK
