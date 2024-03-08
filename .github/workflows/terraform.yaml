@@ -48,11 +48,13 @@ jobs:
         
       - name: Terraform Validate
         id: validate
+        working-directory: ./terraform
         run: terraform validate -no-color
       
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
+        working-directory: ./terraform
         run: terraform plan -no-color -input=false
         continue-on-error: true
         
@@ -86,5 +88,4 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve -input=true 
-        working-directory: ${{ env.working-directory }}
-        
+        working-directory: ./terraform
