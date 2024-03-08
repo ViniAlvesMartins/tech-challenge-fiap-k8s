@@ -38,3 +38,5 @@ data "aws_subnet" "eks_subnet_1" {
 data "aws_subnet" "eks_subnet_2" {
   id = "subnet-0ddcc9607d3c7aec5"
 }
+
+#random
