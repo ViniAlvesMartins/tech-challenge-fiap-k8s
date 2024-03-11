@@ -32,9 +32,9 @@ resource "aws_eks_node_group" "ze-burguer-nodes"{
   instance_types = ["t3.micro"]
 
   scaling_config {
-    desired_size = 1
-    max_size     = 1
-    min_size     = 0
+    desired_size = 2
+    max_size     = 2
+    min_size     = 1
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.

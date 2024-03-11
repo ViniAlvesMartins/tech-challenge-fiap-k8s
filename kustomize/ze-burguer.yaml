@@ -23,9 +23,9 @@ spec:
               name: ze-burguer
           resources:
             requests:
-              cpu: "30m"
+              cpu: "10m"
             limits:
-              cpu: "30m"
+              cpu: "10m"
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -51,13 +51,13 @@ kind: Service
 metadata:
   name: ze-burguer
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: ze-burguer
   ports:
     - protocol: TCP
-      port: 8080
-      nodePort: 30443
+      port: 80
+      targetPort: 8080
 ---
 apiVersion: v1
 kind: ConfigMap
