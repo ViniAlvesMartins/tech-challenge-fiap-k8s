@@ -30,7 +30,7 @@ resource "aws_eks_node_group" "ze-burguer-nodes"{
   node_group_name = "micro-node"
   node_role_arn   = aws_iam_role.node_role.arn
   subnet_ids      = [ data.aws_subnet.eks_subnet_1.id, data.aws_subnet.eks_subnet_2.id ]
-  instance_types = ["t3.micro"]
+  instance_types = ["t3.small"]
 
   scaling_config {
     desired_size = 2
