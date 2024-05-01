@@ -13,7 +13,10 @@ resource "aws_eks_cluster" "cluster" {
     data.aws_subnet.eks_subnet_1,
     data.aws_subnet.eks_subnet_2
   ]
-  tags = ["terraform:true","cluster:ze-burger" ]
+  tags = { 
+    "terraform" = "true"
+    "cluster" = "ze-burger"
+  }
 }
 
 output "endpoint" {
