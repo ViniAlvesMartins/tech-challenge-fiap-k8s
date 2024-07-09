@@ -2,5 +2,6 @@
 .terraform.lock.hcl
 terraform.tfstate.backup
 terraform.tfstate
+*.tfstate
 *.sh
 aws

@@ -1,6 +1,6 @@
 resource "aws_eks_cluster" "cluster" {
   name     = "eks-ze-burguer"
-  role_arn = aws_iam_role.cluster_role.arn
+  role_arn =  data.aws_iam_role.lab_role.arn
 
   vpc_config {
     subnet_ids =  [ data.aws_subnet.eks_subnet_1.id, data.aws_subnet.eks_subnet_2.id ]
@@ -10,11 +10,13 @@ resource "aws_eks_cluster" "cluster" {
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
   # Run Terraform!
   depends_on = [
-    aws_iam_role_policy_attachment.attach_AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.attach_AmazonEKSVPCResourceController,
     data.aws_subnet.eks_subnet_1,
     data.aws_subnet.eks_subnet_2
   ]
+  tags = { 
+    "terraform" = "true"
+    "cluster" = "ze-burger"
+  }
 }
 
 output "endpoint" {
@@ -28,7 +30,7 @@ output "kubeconfig-certificate-authority-data" {
 resource "aws_eks_node_group" "ze-burguer-nodes"{
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "micro-node"
-  node_role_arn   = aws_iam_role.node_role.arn
+  node_role_arn   = data.aws_iam_role.lab_role.arn
   subnet_ids      = [ data.aws_subnet.eks_subnet_1.id, data.aws_subnet.eks_subnet_2.id ]
   instance_types = ["t3.small"]
 
@@ -40,9 +42,6 @@ resource "aws_eks_node_group" "ze-burguer-nodes"{
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   depends_on = [
-    aws_iam_role_policy_attachment.attach-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.attach-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.attach-AmazonEC2ContainerRegistryReadOnly,
     data.aws_subnet.eks_subnet_1,
     data.aws_subnet.eks_subnet_2
   ]

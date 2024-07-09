@@ -8,7 +8,7 @@ terraform {
     required_version = ">= 1.2.0"
 
     backend "s3" {
-    bucket = "state-version-tech"
+    bucket = "ze-burger-tfstate"
     key = "terraform-eks-state"
     region = "us-east-1"
   }
@@ -19,9 +19,9 @@ provider "aws" {
 }
 
 data "aws_subnet" "eks_subnet_1" {
-  id = "subnet-0d54589568705e53e"
+  id = "subnet-099c5697176058d20"
 }
 
 data "aws_subnet" "eks_subnet_2" {
-  id = "subnet-0ddcc9607d3c7aec5"
+  id = "subnet-0c7b6fa644ab7b70b"
 }
