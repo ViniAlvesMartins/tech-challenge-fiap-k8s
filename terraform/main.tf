@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 data "aws_subnet" "eks_subnet_1" {
-  id = "subnet-0333ede7b0e3e8cd4"
+  id = "subnet-099c5697176058d20"
 }
 
 data "aws_subnet" "eks_subnet_2" {
